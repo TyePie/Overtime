@@ -16,7 +16,7 @@ while len(fname) == 0:
 lname = input('Please insert your last name: ')
 
 print('Thank you ', fname, ' ', lname, ',')
-ticknos = input('please insert the ticket numbers you worked on, seperated by a hyphen(-): ')
+ticknos = input('please insert the ticket numbers you worked on, seperated by a hyphen(-): ')				#can't use commas, so using hyphen instead
 
 print('Thank you, ', fname, ' ', lname, ', you have worked on tickets: ', ticknos)
 
@@ -41,7 +41,7 @@ if decision == 'Y':
 	with f:
 		writer = csv.writer(f)
 		writer.writerows(line)
-		sys.exit('OT Logged.')
+		print('OT written to ', f)
 elif decision == 'N':
 	print('Cancelling operation...')
 	sys.exit('Program closed.')
@@ -71,9 +71,9 @@ def csv_to_mysql(load_sql, host, user, password):
         sys.exit(1)
 
 # Execution Example
-load_sql = """LOAD DATA LOCAL INFILE '/Users/tyroneanderson/Documents/GitHub/Overtime/output.csv'
-INTO TABLE Overtime.Overtime FIELDS TERMINATED BY ',' ENCLOSED BY '"' IGNORE 0 LINES;"""
-host = '127.0.0.1'
+load_sql = """LOAD DATA LOCAL INFILE '/Users/tyroneanderson/Documents/GitHub/Overtime/output.csv'		
+INTO TABLE Overtime.Overtime FIELDS TERMINATED BY ',' ENCLOSED BY '"' IGNORE 0 LINES;"""			#Update file location to where yours is stored
+host = '127.0.0.1'												#Update login details to match your MySQL host details
 user = 'root'
 password = 'root'
 csv_to_mysql(load_sql, host, user, password)
