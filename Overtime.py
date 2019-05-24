@@ -1,5 +1,6 @@
 import sys
 import csv
+import pymysql
 
 print('Overtime App by Tyrone')
 
@@ -44,6 +45,37 @@ if decision == 'Y':
 elif decision == 'N':
 	print('Cancelling operation...')
 	sys.exit('Program closed.')
-
 else:
 	sys.exit('Incorrect confirmation provided. Closing.')
+
+def csv_to_mysql(load_sql, host, user, password):
+#    '''
+#    This function load a csv file to MySQL table according to
+#    the load_sql statement.
+#    '''
+    try:
+        con = pymysql.connect(host=host,
+                                user=user,
+                                password=password,
+                                autocommit=True,
+                                local_infile=1)
+        print('Connected to DB: {}'.format(host))
+        # Create cursor and execute Load SQL
+        cursor = con.cursor()
+        cursor.execute(load_sql)
+        print('Succuessfully loaded the table from csv.')
+        con.close()
+        
+    except Exception as e:
+        print('Error: {}'.format(str(e)))
+        sys.exit(1)
+
+# Execution Example
+load_sql = """LOAD DATA LOCAL INFILE '/Users/tyroneanderson/Documents/GitHub/Overtime/output.csv'
+INTO TABLE Overtime.Overtime FIELDS TERMINATED BY ',' ENCLOSED BY '"' IGNORE 0 LINES;"""
+host = '127.0.0.1'
+user = 'root'
+password = 'root'
+csv_to_mysql(load_sql, host, user, password)
+
+
